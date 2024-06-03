@@ -1,7 +1,14 @@
 ﻿namespace Alcorithms
 {
+
 	internal static class Algorithm
 	{
+#if DEBUG
+	const char SEPARATOR = SEPARATOR;
+#else
+	const char SEPARATOR = '~';
+#endif
+
 		public static (Graph<int, int> graph, Action<Graph<int, int>> algorithm) ParseArgs(string[] args)
 		{
 			return args switch
@@ -20,7 +27,7 @@
 				for (int from = 1; from <= graph.Nodes.Count; from++)
 				{
 					Console.Write($"V{from}:");
-					Console.Write('\t');
+					Console.Write(SEPARATOR);
 					for (int to = 1; to <= graph.Nodes.Count; to++)
 					{
 						Console.Write($"V{to}:");
@@ -33,7 +40,7 @@
 							var res = graph.Trace(from, to, StartNumbers(k).ToHashSet(), Graph<int, int>.DEFAULT_PRED);
 							Console.Write(res is not null ? res : "∞");
 						}
-						Console.Write('\t');
+						Console.Write(SEPARATOR);
 					}
 					Console.WriteLine();
 				}
@@ -79,9 +86,9 @@
 			}
 
 			static void PrintDijkstra(DijkstraStruct d) 
-				=> Console.WriteLine(string.Join('\t',
+				=> Console.WriteLine(string.Join(SEPARATOR,
 									 [d.Id,
-									 //$"{{{string.Join(", ", d.S.Select(v => $"V{v}"))}}}",
+									 $"{{{string.Join(", ", d.S.Select(v => $"V{v}"))}}}",
 									 d.W is int w ? $"V{w}" : "-",
 									 d.D?.ToString() ?? "-",
 									 ..d.Values.Select(kv => $"V{kv.Key}:{kv.Value?.ToString() ?? "∞"}")]));
